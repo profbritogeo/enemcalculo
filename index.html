@@ -1,12 +1,3 @@
-Aqui está o código atualizado do site com o botão **"VER NOTAS DE CORTE"** adicionado em destaque logo após o cartão de resultado.
-
-O botão foi desenvolvido com um visual chamativo (em degradê verde com sombra e efeito ao passar o mouse) e direciona para o link fornecido (`https://profbritogeo.github.io/notascatolica/`).
-
----
-
-### 💻 Código Atualizado (`index.html`)
-
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -148,18 +139,32 @@ O botão foi desenvolvido com um visual chamativo (em degradê verde com sombra 
             font-weight: 500;
         }
 
+        /* Cartão de Resultado com Botão Lado a Lado */
         .result-card {
             background: linear-gradient(135deg, #1e3a8a, #2563eb);
             color: white;
-            text-align: center;
-            padding: 28px;
+            padding: 24px;
             border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+        }
+
+        .result-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .score-box {
+            text-align: left;
         }
 
         .result-card h2 {
-            font-size: 1.2rem;
+            font-size: 0.95rem;
             opacity: 0.9;
-            margin-bottom: 12px;
+            margin-bottom: 4px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -167,15 +172,43 @@ O botão foi desenvolvido com um visual chamativo (em degradê verde com sombra 
         .final-score {
             font-size: 3.2rem;
             font-weight: 800;
-            margin-bottom: 16px;
+            line-height: 1;
+        }
+
+        /* Botão ao Lado da Nota */
+        .btn-corte {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 22px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 800;
+            text-decoration: none;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px -2px rgba(16, 185, 129, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 2px solid #34d399;
+            white-space: nowrap;
+        }
+
+        .btn-corte:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 12px 20px -2px rgba(16, 185, 129, 0.5);
+            border-color: #6ee7b7;
         }
 
         .scores-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 12px;
-            margin-top: 20px;
-            padding-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 16px;
+            padding-top: 16px;
             border-top: 1px solid rgba(255,255,255,0.2);
         }
 
@@ -184,6 +217,7 @@ O botão foi desenvolvido com um visual chamativo (em degradê verde com sombra 
             padding: 10px;
             border-radius: 8px;
             font-size: 0.85rem;
+            text-align: center;
         }
 
         .score-item span {
@@ -191,43 +225,6 @@ O botão foi desenvolvido com um visual chamativo (em degradê verde com sombra 
             font-size: 1.1rem;
             font-weight: 700;
             margin-top: 4px;
-        }
-
-        /* Estilo Chamativo do Botão de Notas de Corte */
-        .btn-corte-container {
-            margin-top: 20px;
-        }
-
-        .btn-corte {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            padding: 18px 24px;
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: #ffffff;
-            text-align: center;
-            font-size: 1.25rem;
-            font-weight: 800;
-            text-decoration: none;
-            border-radius: 14px;
-            box-shadow: 0 10px 20px -3px rgba(16, 185, 129, 0.4), 0 4px 6px -2px rgba(16, 185, 129, 0.2);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            border: 2px solid #34d399;
-        }
-
-        .btn-corte:hover {
-            background: linear-gradient(135deg, #059669, #047857);
-            transform: translateY(-3px) scale(1.01);
-            box-shadow: 0 16px 25px -3px rgba(16, 185, 129, 0.5), 0 8px 10px -2px rgba(16, 185, 129, 0.3);
-            border-color: #6ee7b7;
-        }
-
-        .btn-corte:active {
-            transform: translateY(0) scale(1);
         }
     </style>
 </head>
@@ -303,10 +300,17 @@ O botão foi desenvolvido com um visual chamativo (em degradê verde com sombra 
         </div>
     </div>
 
-    <!-- Resultado -->
+    <!-- Resultado com Botão Lado a Lado -->
     <div class="result-card">
-        <h2>Média Geral Estimada</h2>
-        <div class="final-score" id="media-geral">0.0</div>
+        <div class="result-top">
+            <div class="score-box">
+                <h2>Média Geral Estimada</h2>
+                <div class="final-score" id="media-geral">0.0</div>
+            </div>
+            <a href="https://profbritogeo.github.io/notascatolica/" target="_blank" class="btn-corte">
+                🎯 VER NOTAS DE CORTE
+            </a>
+        </div>
 
         <div class="scores-grid">
             <div class="score-item">Humanas<span id="res-hum">0.0</span></div>
@@ -315,13 +319,6 @@ O botão foi desenvolvido com um visual chamativo (em degradê verde com sombra 
             <div class="score-item">Natureza<span id="res-nat">0.0</span></div>
             <div class="score-item">Redação<span id="res-red">0.0</span></div>
         </div>
-    </div>
-
-    <!-- Botão Chamativo de Notas de Corte -->
-    <div class="btn-corte-container">
-        <a href="https://profbritogeo.github.io/notascatolica/" target="_blank" class="btn-corte">
-            🎯 VER NOTAS DE CORTE
-        </a>
     </div>
 </div>
 
@@ -376,7 +373,6 @@ O botão foi desenvolvido com um visual chamativo (em degradê verde com sombra 
         45: { hum: 819.7, ling: 795.8, mat: 961.9, nat: 900.1 }
     };
 
-    // Referências aos elementos da interface
     const sliderHum = document.getElementById('slider-hum');
     const sliderLing = document.getElementById('slider-ling');
     const sliderMat = document.getElementById('slider-mat');
@@ -392,7 +388,6 @@ O botão foi desenvolvido com um visual chamativo (em degradê verde com sombra 
         let notaRed = parseFloat(inputRed.value) || 0;
         const alertRed = document.getElementById('alert-red');
 
-        // Validação da faixa de Redação (0 a 1000)
         if (notaRed < 0 || notaRed > 1000) {
             alertRed.style.display = 'block';
             if (notaRed > 1000) notaRed = 1000;
@@ -401,13 +396,11 @@ O botão foi desenvolvido com um visual chamativo (em degradê verde com sombra 
             alertRed.style.display = 'none';
         }
 
-        // Busca das notas correspondentes na tabela
         const notaHum = TABELA_ENEM[acertosHum].hum;
         const notaLing = TABELA_ENEM[acertosLing].ling;
         const notaMat = TABELA_ENEM[acertosMat].mat;
         const notaNat = TABELA_ENEM[acertosNat].nat;
 
-        // Atualização dos badges de acertos e notas por área
         document.getElementById('badge-hum').textContent = `${acertosHum} acertos`;
         document.getElementById('nota-hum').textContent = notaHum.toFixed(1);
 
@@ -422,10 +415,8 @@ O botão foi desenvolvido com um visual chamativo (em degradê verde com sombra 
 
         document.getElementById('nota-red').textContent = notaRed.toFixed(1);
 
-        // Cálculo da média simples das 5 notas
         const mediaGeral = (notaHum + notaLing + notaMat + notaNat + notaRed) / 5;
 
-        // Atualização da área de resultados
         document.getElementById('media-geral').textContent = mediaGeral.toFixed(1);
         document.getElementById('res-hum').textContent = notaHum.toFixed(1);
         document.getElementById('res-ling').textContent = notaLing.toFixed(1);
@@ -434,16 +425,13 @@ O botão foi desenvolvido com um visual chamativo (em degradê verde com sombra 
         document.getElementById('res-red').textContent = notaRed.toFixed(1);
     }
 
-    // Event listeners para atualização em tempo real
     sliderHum.addEventListener('input', calcularMedia);
     sliderLing.addEventListener('input', calcularMedia);
     sliderMat.addEventListener('input', calcularMedia);
     sliderNat.addEventListener('input', calcularMedia);
     inputRed.addEventListener('input', calcularMedia);
 
-    // Inicialização
     calcularMedia();
 </script>
 </body>
 </html>
-```
