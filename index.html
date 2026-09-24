@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Notas - Enem 2024</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --accent: #059669;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .area-group {
+            margin-bottom: 24px;
+        }
+
+        .area-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .area-title {
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        .badge-acertos {
+            background-color: #e0e7ff;
+            color: #3730a3;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .badge-nota {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #cbd5e1;
+            outline: none;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .range-limits {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .redacao-box {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-number {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-number:focus {
+            border-color: var(--primary);
+        }
+
+        .info-text {
+            font-size: 0.85rem;
+            color: #b91c1c;
+            display: none;
+            font-weight: 500;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            color: white;
+            text-align: center;
+            padding: 28px;
+            border-radius: 16px;
+        }
+
+        .result-card h2 {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .final-score {
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .scores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .score-item {
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+
+        .score-item span {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Simulador de Nota ENEM 2024</h1>
+        <p>Ajuste o número estimado de acertos para calcular a sua média geral aproximada</p>
+    </header>
+
+    <div class="card">
+        <!-- Humanas -->
+        <div class="area-group">
+            <div class="area-header">
+                <span class="area-title">Ciências Humanas</span>
+                <div>
+                    <span class="badge-acertos" id="badge-hum">0 acertos</span>
+                    <span class="badge-nota" id="nota-hum">0.0</span>
+                </div>
+            </div>
+            <input type="range" id="slider-hum" min="0" max="45" value="0">
+            <div class="range-limits"><span>0</span><span>45</span></div>
+        </div>
+
+        <!-- Linguagens -->
+        <div class="area-group">
+            <div class="area-header">
+                <span class="area-title">Linguagens e Códigos</span>
+                <div>
+                    <span class="badge-acertos" id="badge-ling">0 acertos</span>
+                    <span class="badge-nota" id="nota-ling">0.0</span>
+                </div>
+            </div>
+            <input type="range" id="slider-ling" min="0" max="45" value="0">
+            <div class="range-limits"><span>0</span><span>45</span></div>
+        </div>
+
+        <!-- Matemática -->
+        <div class="area-group">
+            <div class="area-header">
+                <span class="area-title">Matemática e Suas Tecnologias</span>
+                <div>
+                    <span class="badge-acertos" id="badge-mat">0 acertos</span>
+                    <span class="badge-nota" id="nota-mat">0.0</span>
+                </div>
+            </div>
+            <input type="range" id="slider-mat" min="0" max="45" value="0">
+            <div class="range-limits"><span>0</span><span>45</span></div>
+        </div>
+
+        <!-- Natureza -->
+        <div class="area-group">
+            <div class="area-header">
+                <span class="area-title">Ciências da Natureza</span>
+                <div>
+                    <span class="badge-acertos" id="badge-nat">0 acertos</span>
+                    <span class="badge-nota" id="nota-nat">0.0</span>
+                </div>
+            </div>
+            <input type="range" id="slider-nat" min="0" max="45" value="0">
+            <div class="range-limits"><span>0</span><span>45</span></div>
+        </div>
+
+        <!-- Redação -->
+        <div class="area-group redacao-box">
+            <div class="area-header">
+                <span class="area-title">Redação</span>
+                <span class="badge-nota" id="nota-red">0.0</span>
+            </div>
+            <input type="number" id="input-red" class="input-number" min="0" max="1000" step="20" placeholder="Digite a nota estimada (ex: 840)">
+            <p class="info-text" id="alert-red">⚠️ A nota da Redação deve estar estritamente no intervalo de 0 a 1000 pontos.</p>
+        </div>
+    </div>
+
+    <!-- Resultado -->
+    <div class="result-card">
+        <h2>Média Geral Estimada</h2>
+        <div class="final-score" id="media-geral">0.0</div>
+
+        <div class="scores-grid">
+            <div class="score-item">Humanas<span id="res-hum">0.0</span></div>
+            <div class="score-item">Linguagens<span id="res-ling">0.0</span></div>
+            <div class="score-item">Matemática<span id="res-mat">0.0</span></div>
+            <div class="score-item">Natureza<span id="res-nat">0.0</span></div>
+            <div class="score-item">Redação<span id="res-red">0.0</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Tabela oficial de conversão de acertos em notas médias (Enem 2024)
+    const TABELA_ENEM = {
+        0:  { hum: 0.0,   ling: 0.0,   mat: 0.0,   nat: 0.0 },
+        1:  { hum: 292.7, ling: 307.2, mat: 376.9, nat: 348.7 },
+        2:  { hum: 302.7, ling: 316.9, mat: 382.4, nat: 356.0 },
+        3:  { hum: 312.8, ling: 325.9, mat: 389.3, nat: 363.5 },
+        4:  { hum: 323.7, ling: 337.2, mat: 396.5, nat: 371.4 },
+        5:  { hum: 334.4, ling: 346.7, mat: 404.8, nat: 380.6 },
+        6:  { hum: 346.8, ling: 357.5, mat: 414.3, nat: 390.7 },
+        7:  { hum: 359.0, ling: 368.9, mat: 425.1, nat: 401.8 },
+        8:  { hum: 372.5, ling: 381.1, mat: 437.5, nat: 414.2 },
+        9:  { hum: 386.3, ling: 393.9, mat: 451.9, nat: 427.7 },
+        10: { hum: 401.3, ling: 407.0, mat: 468.9, nat: 442.6 },
+        11: { hum: 416.5, ling: 420.9, mat: 488.2, nat: 458.9 },
+        12: { hum: 432.1, ling: 434.7, mat: 510.4, nat: 475.9 },
+        13: { hum: 447.8, ling: 448.2, mat: 534.5, nat: 493.4 },
+        14: { hum: 462.8, ling: 460.6, mat: 559.8, nat: 510.7 },
+        15: { hum: 477.2, ling: 472.1, mat: 584.0, nat: 527.2 },
+        16: { hum: 490.8, ling: 482.7, mat: 606.3, nat: 542.4 },
+        17: { hum: 503.2, ling: 492.3, mat: 625.3, nat: 556.0 },
+        18: { hum: 514.5, ling: 501.1, mat: 641.4, nat: 568.1 },
+        19: { hum: 524.9, ling: 509.5, mat: 655.3, nat: 578.9 },
+        20: { hum: 534.4, ling: 517.3, mat: 667.2, nat: 588.9 },
+        21: { hum: 543.4, ling: 524.7, mat: 678.3, nat: 598.3 },
+        22: { hum: 551.9, ling: 531.9, mat: 688.4, nat: 607.2 },
+        23: { hum: 560.1, ling: 538.8, mat: 698.3, nat: 615.8 },
+        24: { hum: 568.1, ling: 545.7, mat: 707.9, nat: 624.0 },
+        25: { hum: 575.8, ling: 552.5, mat: 717.2, nat: 632.4 },
+        26: { hum: 583.5, ling: 559.1, mat: 726.5, nat: 640.6 },
+        27: { hum: 591.3, ling: 565.9, mat: 735.5, nat: 648.6 },
+        28: { hum: 599.1, ling: 572.7, mat: 744.5, nat: 657.0 },
+        29: { hum: 607.0, ling: 579.6, mat: 753.5, nat: 665.3 },
+        30: { hum: 615.2, ling: 586.6, mat: 762.8, nat: 673.6 },
+        31: { hum: 623.5, ling: 593.7, mat: 771.6, nat: 682.1 },
+        32: { hum: 632.1, ling: 601.0, mat: 780.8, nat: 691.0 },
+        33: { hum: 641.1, ling: 608.6, mat: 790.5, nat: 700.2 },
+        34: { hum: 650.5, ling: 616.7, mat: 800.0, nat: 709.0 },
+        35: { hum: 660.3, ling: 624.9, mat: 810.1, nat: 719.0 },
+        36: { hum: 370.7, ling: 633.8, mat: 820.3, nat: 729.1 },
+        37: { hum: 681.9, ling: 643.3, mat: 831.4, nat: 740.2 },
+        38: { hum: 693.7, ling: 653.5, mat: 842.7, nat: 751.8 },
+        39: { hum: 706.7, ling: 665.0, mat: 855.1, nat: 764.0 },
+        40: { hum: 720.9, ling: 677.8, mat: 868.4, nat: 777.8 },
+        41: { hum: 736.3, ling: 692.0, mat: 882.4, nat: 795.6 },
+        42: { hum: 754.5, ling: 709.4, mat: 899.1, nat: 817.4 },
+        43: { hum: 774.5, ling: 729.9, mat: 918.2, nat: 839.9 },
+        44: { hum: 797.2, ling: 755.2, mat: 938.6, nat: 867.2 },
+        45: { hum: 819.7, ling: 795.8, mat: 961.9, nat: 900.1 }
+    };
+
+    // Referências aos elementos da interface
+    const sliderHum = document.getElementById('slider-hum');
+    const sliderLing = document.getElementById('slider-ling');
+    const sliderMat = document.getElementById('slider-mat');
+    const sliderNat = document.getElementById('slider-nat');
+    const inputRed = document.getElementById('input-red');
+
+    function calcularMedia() {
+        const acertosHum = parseInt(sliderHum.value);
+        const acertosLing = parseInt(sliderLing.value);
+        const acertosMat = parseInt(sliderMat.value);
+        const acertosNat = parseInt(sliderNat.value);
+
+        let notaRed = parseFloat(inputRed.value) || 0;
+        const alertRed = document.getElementById('alert-red');
+
+        // Validação da faixa de Redação (0 a 1000)
+        if (notaRed < 0 || notaRed > 1000) {
+            alertRed.style.display = 'block';
+            if (notaRed > 1000) notaRed = 1000;
+            if (notaRed < 0) notaRed = 0;
+        } else {
+            alertRed.style.display = 'none';
+        }
+
+        // Busca das notas correspondentes na tabela
+        const notaHum = TABELA_ENEM[acertosHum].hum;
+        const notaLing = TABELA_ENEM[acertosLing].ling;
+        const notaMat = TABELA_ENEM[acertosMat].mat;
+        const notaNat = TABELA_ENEM[acertosNat].nat;
+
+        // Atualização dos badges de acertos e notas por área
+        document.getElementById('badge-hum').textContent = `${acertosHum} acertos`;
+        document.getElementById('nota-hum').textContent = notaHum.toFixed(1);
+
+        document.getElementById('badge-ling').textContent = `${acertosLing} acertos`;
+        document.getElementById('nota-ling').textContent = notaLing.toFixed(1);
+
+        document.getElementById('badge-mat').textContent = `${acertosMat} acertos`;
+        document.getElementById('nota-mat').textContent = notaMat.toFixed(1);
+
+        document.getElementById('badge-nat').textContent = `${acertosNat} acertos`;
+        document.getElementById('nota-nat').textContent = notaNat.toFixed(1);
+
+        document.getElementById('nota-red').textContent = notaRed.toFixed(1);
+
+        // Cálculo da média simples das 5 notas
+        const mediaGeral = (notaHum + notaLing + notaMat + notaNat + notaRed) / 5;
+
+        // Atualização da área de resultados
+        document.getElementById('media-geral').textContent = mediaGeral.toFixed(1);
+        document.getElementById('res-hum').textContent = notaHum.toFixed(1);
+        document.getElementById('res-ling').textContent = notaLing.toFixed(1);
+        document.getElementById('res-mat').textContent = notaMat.toFixed(1);
+        document.getElementById('res-nat').textContent = notaNat.toFixed(1);
+        document.getElementById('res-red').textContent = notaRed.toFixed(1);
+    }
+
+    // Event listeners para atualização em tempo real
+    sliderHum.addEventListener('input', calcularMedia);
+    sliderLing.addEventListener('input', calcularMedia);
+    sliderMat.addEventListener('input', calcularMedia);
+    sliderNat.addEventListener('input', calcularMedia);
+    inputRed.addEventListener('input', calcularMedia);
+
+    // Inicialização
+    calcularMedia();
+</script>
+</body>
+</html>
