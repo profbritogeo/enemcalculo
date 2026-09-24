@@ -1,9 +1,18 @@
+Aqui está o código atualizado do site com o botão **"VER NOTAS DE CORTE"** adicionado em destaque logo após o cartão de resultado.
+
+O botão foi desenvolvido com um visual chamativo (em degradê verde com sombra e efeito ao passar o mouse) e direciona para o link fornecido (`https://profbritogeo.github.io/notascatolica/`).
+
+---
+
+### 💻 Código Atualizado (`index.html`)
+
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de Notas - Enem</title>
+    <title>Simulador de Notas - Enem 2024</title>
     <style>
         :root {
             --primary: #2563eb;
@@ -183,6 +192,43 @@
             font-weight: 700;
             margin-top: 4px;
         }
+
+        /* Estilo Chamativo do Botão de Notas de Corte */
+        .btn-corte-container {
+            margin-top: 20px;
+        }
+
+        .btn-corte {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 18px 24px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #ffffff;
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 800;
+            text-decoration: none;
+            border-radius: 14px;
+            box-shadow: 0 10px 20px -3px rgba(16, 185, 129, 0.4), 0 4px 6px -2px rgba(16, 185, 129, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border: 2px solid #34d399;
+        }
+
+        .btn-corte:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 16px 25px -3px rgba(16, 185, 129, 0.5), 0 8px 10px -2px rgba(16, 185, 129, 0.3);
+            border-color: #6ee7b7;
+        }
+
+        .btn-corte:active {
+            transform: translateY(0) scale(1);
+        }
     </style>
 </head>
 <body>
@@ -269,6 +315,13 @@
             <div class="score-item">Natureza<span id="res-nat">0.0</span></div>
             <div class="score-item">Redação<span id="res-red">0.0</span></div>
         </div>
+    </div>
+
+    <!-- Botão Chamativo de Notas de Corte -->
+    <div class="btn-corte-container">
+        <a href="https://profbritogeo.github.io/notascatolica/" target="_blank" class="btn-corte">
+            🎯 VER NOTAS DE CORTE
+        </a>
     </div>
 </div>
 
@@ -393,3 +446,4 @@
 </script>
 </body>
 </html>
+```
